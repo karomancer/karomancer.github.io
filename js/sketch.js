@@ -6,6 +6,41 @@ const DARK_TEAL_HEX = "#459c83";
 const TEAL_RGB = [81, 179, 154];
 const TEAL_HEX = "#51b39a";
 
+const COMPARISON_THRESHOLD = 40
+const MODULO = 200
+
+const masterVertices = []
+
+const areVerticesEqualish = (v1, v2) => {
+    const x1 = Math.round(v1.x);
+    const y1 = Math.round(v1.y);
+    const x2 = Math.round(v2.x);
+    const y2 = Math.round(v2.y);
+  
+    let xAreEqual = false;
+    let yAreEqual = false;
+  
+    if (
+      x1 === x2 ||
+      (x1 < x2 + COMPARISON_THRESHOLD && x1 > x2 - COMPARISON_THRESHOLD) ||
+      (x2 < x1 + COMPARISON_THRESHOLD && x2 > x1 - COMPARISON_THRESHOLD)
+    ) {
+      xAreEqual = true;
+    }
+    if (
+      y1 == y2 ||
+      (y1 < y2 + COMPARISON_THRESHOLD && y1 > y2 - COMPARISON_THRESHOLD) || 
+      (y2 < y1 + COMPARISON_THRESHOLD && y2 > y1 - COMPARISON_THRESHOLD)
+    ) {
+      yAreEqual = true;
+    }
+    return xAreEqual && yAreEqual;
+  };
+  
+  const findIntersection = point => masterVertices.find((v) =>
+    areVerticesEqualish(point, v)
+);
+
 class Circuit {
   constructor(p) {
     this.p = p;
@@ -17,13 +52,29 @@ class Circuit {
     this.constructTurns();
   }
 
+  _findIntersectionInAllLines(start, end, angle, numTurn) {
+    for (let i = angle.start; i < angle.end; i++) {
+        const tempX = this.p.map(i, angle.start, angle.end, start.x, end.x, 1);
+        const tempY = this.p.map(i, angle.start, angle.end, start.y, end.y, 1);
+        const vertex = this.p.createVector(tempX, tempY);
+        if (findIntersection(vertex)) {
+            return true;
+        }
+    }
+}
+
   constructTurns() {
+    const angle = {current: 0, start: 0, end: 100} 
     const numTurns = Math.max(3, Math.round(this.p.random(5)));
     for (let i = 0; i < numTurns; i++) {
-      const point = this.constructPoint();
+      let point = this.constructPoint();
+      while (findIntersection(point) || (i > 0 && this._findIntersectionInAllLines(this.turningPoints[i - 1], point, angle, i))) {
+          point = this.constructPoint()
+      }
+
       this.turningPoints.push(point);
       this.readyToDraw.push(false);
-      this.angles.push({ current: 0, start: 0, end: 100 });
+      this.angles.push({...angle});
     }
   }
 
@@ -41,12 +92,15 @@ class Circuit {
 
     const tempX = this.p.map(current, start, end, startPoint.x, endPoint.x, 1);
     const tempY = this.p.map(current, start, end, startPoint.y, endPoint.y, 1);
+    const vertex = this.p.createVector(tempX, tempY)
 
     if (!this.vertices[startIndex]) {
       this.vertices[startIndex] = [];
     }
-    this.vertices[startIndex].push(this.p.createVector(tempX, tempY));
+    this.vertices[startIndex].push(vertex);
     this.angles[startIndex].current += 0.5;
+
+    masterVertices.push(vertex);
   }
 
   drawDot(point, diameter) {
@@ -124,9 +178,9 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
-    const num = Math.round(p.random(401));
+    const num = Math.round(p.random(MODULO));
 
-    if (num % 401 === 0) {
+    if (num % MODULO === 0) {
       const circuit = new Circuit(p);
       circuits.push(circuit);
     }
