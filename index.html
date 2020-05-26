@@ -2,9 +2,27 @@
 
 <html>
     <head>
-
+        <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
     </head>
     <body>
-        <h1>Hello this is Karina's site.</h1>
+        <script src="./js/vendor/vue.js"></script>
+        <div id="splash">
+            <h1>karina chow</h1>
+            <h2 id="byline">
+                {{byline}}
+            </h2>
+            <nav>
+                <ul>
+                    <!-- <li><a href="">bio</a></li> -->
+                    <!-- <li><a href="">status</a></li> -->
+                    <li><a href="">resume</a></li>
+                    <!-- <li><a href="">projects</a></li> -->
+                    <!-- <li><a href="">social</a></li> -->
+                </ul>
+            </nav>
+        </div>
+        <script src="./js/utils.js"></script>
+        <script src="./js/byline.js"></script>
+        <script src="./js/ui.js"></script>
     </body>
 </html>

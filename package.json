@@ -1,0 +1,27 @@
+{
+  "name": "karomancer.github.io",
+  "version": "1.0.0",
+  "description": "For Gray Area course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karomancer/karomancer.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karomancer/karomancer.github.io/issues"
+  },
+  "homepage": "https://github.com/karomancer/karomancer.github.io#readme",
+  "dependencies": {
+    "babel-node": "0.0.1-security",
+    "instagram-web-api": "^2.2.0",
+    "parallax-js": "^3.1.0",
+    "vue": "^2.6.11",
+    "vue-cli": "^2.9.6",
+    "vue-router": "^3.2.0"
+  }
+}
