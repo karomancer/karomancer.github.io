@@ -1,15 +1,19 @@
 const BYLINE_OPTIONS = [
     "senior frontend engineer",
     "freelance graphic designer",
-    "aspiring installation artist",
-    "web accessibility advocate",
     "user experience nerd",
+    "web accessibility advocate",
     "creative coder",
+    "engaging presenter",
+    "attentive mentor & tutor",
     "amateur cosplayer",
-    "animation enthusiast",
+    "aspiring installation artist",
     "energetic aikidoka",
     "video & board game geek",
     "funky saxophonista",
+    "animation enthusiast",
+    "jack of all trades",
+    "are you still there?"
   ];
   
   let currentBylineIndex = 0
@@ -19,15 +23,9 @@ const BYLINE_OPTIONS = [
 
   function changeByline() {
     const alphabet = "abcdefghijklmnopqrstuvwxyzαβΓΔδεζηθικΛλμνΞξΠπρΣσςτυΦφχΨψΩω";
-    let newBylineIndex = getRandomIndex(BYLINE_OPTIONS.length);
+    currentBylineIndex = currentBylineIndex + 1 == BYLINE_OPTIONS.length ? 0 : currentBylineIndex + 1
   
-    while (newBylineIndex === currentBylineIndex) {
-      newBylineIndex = getRandomIndex(BYLINE_OPTIONS.length);
-    }
-  
-    bylineIndex = newBylineIndex
-  
-    const newByline = BYLINE_OPTIONS[newBylineIndex];
+    const newByline = BYLINE_OPTIONS[currentBylineIndex];
     const newBylineArray = newByline.split("");
     const bylineArray = byline.split("");
   
